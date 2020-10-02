@@ -1,3 +1,5 @@
+this requires nodejs 8.X.X  Download and place into .local
+
 this app does the following
 
 1. The API listtens on a PORT and accepts incoming HTTP requests for POSt, GET,
