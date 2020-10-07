@@ -6,10 +6,21 @@
 const http = require('http');
 const url = require('url');
 const StringDecoder = require('string_decoder').StringDecoder;
+const config = require('../config')
 
 // The server should respod to all request with a string
 
 const server = http.createServer(function(req, res) {
+  unifiedServer(req,res);
+});
+
+// Start the server, and have it listen on port 3000
+server.listen(config.httpPort, function(){
+  console.log(`The server is running on ${config.httpPort}`);
+});
+
+// All the server logic for both the http and https server
+const unifiedServer = function(req,res) {
   // get data needed for RESTful request, create dataobject with all needed data
   // get the url and parse it
   let parsedURL = url.parse(req.url, true);
@@ -68,14 +79,8 @@ const server = http.createServer(function(req, res) {
       // log the request path
       console.log("returning the response: ", statusCode, payloadString);
     });
-
   });
-});
-
-// Start the server, and have it listen on port 3000
-server.listen(3000, () => {
-  console.log('Listing on port 3000');
-});
+};
 
 // Define the handlers
 const handlers = {};
@@ -95,3 +100,5 @@ handlers.notFound = function(data, callback) {
 const router = {
   'sample' : handlers.sample
 };
+
+
