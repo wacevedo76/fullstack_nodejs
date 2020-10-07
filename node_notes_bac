@@ -235,3 +235,21 @@ at the command line          | $ NODE_ENV=staging nodejs index.js <-- at command
                              | 
                              | 
                              | 
+--------------------------------------------------------------------------------
+Configuring HTTPS 
+--------------------------------------------------------------------------------
+Create new ssl               | openssl rec -newkey rsa:2048 -new -nodes -x509 -days 3650 
+                             |   -keyout key.pem -out cert.pem
+                             | 
+asyn file read               | fs.readFileSync({location of file}) 
+                             | 
+                             | 
+                             | 
+                             | 
+                             | 
+                             | 
+                             | 
+                             | 
+                             | 
+                             | 
+                             | 
