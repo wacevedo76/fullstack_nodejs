@@ -8,9 +8,10 @@ const http = require('http');
 const https = require('https');
 const url = require('url');
 const StringDecoder = require('string_decoder').StringDecoder;
-const config = require('../config');
+const config = require('../lib/config');
 const fs = require('fs');
-const handlers = require('../lib/handlers')
+const handlers = require('../lib/handlers');
+const helpers = require('../lib/helpers');
 
 // Instantiate the HTTP server
 const httpServer = http.createServer(function(req, res) {
@@ -72,7 +73,7 @@ const unifiedServer = function(req,res) {
       'queryStringObject' : queryStringObject,
       'method' : method,
       'headers' : headers,
-      'payload' : buffer
+      'payload' : helpers.parseJsonToObject(buffer)
     };
 
     // Choose the handler this request should go to. If non found, choose 'not found'
