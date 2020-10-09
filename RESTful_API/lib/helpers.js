@@ -15,6 +15,7 @@ helpers.hash = function(str) {
     const hash = crypto.createHmac('sha256', config.hashingSecret).update(str).digest('hex');
     return hash
   } else {
+    console.log('could not hash password');
     return false;
   }
 };
