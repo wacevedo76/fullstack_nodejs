@@ -48,9 +48,12 @@ Node packages                |
                              | 
 --------------------------------------------------------------------------------
 NodeJS masterclass
-Building a RESTful API - 157
+Building a RESTful API - 160
   Routing requests - 195
-  Returning JSON -  219
+  Returning JSON -  220
+  Adding Configuration - 226
+  Configuring HTTPS - 240
+  Storing Data - 249
 --------------------------------------------------------------------------------
 Table of contents            | Section 1: 
                              |  Overview, introduce the course, 
@@ -217,7 +220,6 @@ define handler               | handlesrs can be objects with the key assigned to
                              | 
 --------------------------------------------------------------------------------
 Returning JSON
-Adding Configuration - 225
 --------------------------------------------------------------------------------
 change content type          | res.setHeader('Content-Type', 'application/json')
                              | 
@@ -243,12 +245,24 @@ Create new ssl               | openssl rec -newkey rsa:2048 -new -nodes -x509 -d
                              | 
 asyn file read               | fs.readFileSync({location of file}) 
                              | 
+--------------------------------------------------------------------------------
+Storing Data
+--------------------------------------------------------------------------------
+FS package  (FIle System)    | 
+  fs.open (open file)        | fs.open(pathToFile,flags,mode,callback);
+                             |   --> callback(err, fileDescriptor) 
+                             |   --> filedescriptor provided by fs.open 
+                             |
+  fs.writeFile (to open file)| fs.writeFile(fileDescriptor, stringData, callback);
+    if fs.open did not return|   --> callback(err)
+    error and provided a     | 
+    file descriptor          | 
                              | 
+  fs.close                   | fs.close(fileDescriptor, callback) 
+                             |   --> callback(err) 
                              | 
-                             | 
-                             | 
-                             | 
-                             | 
+Path package                 | const path = require('path');
+                             | path.join(__dirname, '/path/to/asset/'); 
                              | 
                              | 
                              | 
