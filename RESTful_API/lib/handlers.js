@@ -4,6 +4,7 @@
 
 // Dependencies
 const _data = require('./data');
+const helpers = require('./helpers');
 
 // Define the handlers
 const handlers = {};
@@ -36,7 +37,8 @@ handlers._users.post = function(data,callback){
     // Make sure that the user doesn't already exist'
     _data.read('users', phone, function(err, data){
       if(err) {
--------------------------------> TIME: 16:10 <----------------------------------        
+        // Hash the password
+        const hashedPassword = helpers.hash(password);
       } else {
         // User already exists
         callback(400, {'Error' : 'a user with that phone number already exists.'} );
