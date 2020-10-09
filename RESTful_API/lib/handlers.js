@@ -12,9 +12,10 @@ const handlers = {};
 // Users
 handlers.users = function(data, callback) {
   const acceptableMehtods = ['post', 'get', 'put', 'delete'];
-  if(acceptableMehtods.indexOf(data.module) > -1){
+  if(acceptableMehtods.indexOf(data.method) > -1){
     handlers._users[data.method](data, callback);
   } else {
+    console.log('Not an acceptable method');
     callback(405);
   }
 };
@@ -44,11 +45,11 @@ handlers._users.post = function(data,callback){
         if(hashedPassword) {
           // Create the user object
           const userobject = {
-            'firstname' : firstname,
-            'lastname' : lastname,
+            'firstName' : firstName,
+            'lastName' : lastName,
             'phone' : phone, 
-            'hashedpassword' : hashedpassword,
-            'tosagreement' : true
+            'hashedPassword' : hashedPassword,
+            'tosAgreement' : true
           };
 
           // store the user
@@ -70,7 +71,14 @@ handlers._users.post = function(data,callback){
       }
     });
   } else {
-    callback(400, {'Error' : 'Missing required fields'});
+    callback(400, {
+      'Error' : 'Missing required fields',
+      'firstName' : firstName,
+      'lastName' : lastName,
+      'phone' : phone, 
+//      'hashedPassword' : hashedPassword,
+      'tosAgreement' : true
+    });
   }
 };
 
