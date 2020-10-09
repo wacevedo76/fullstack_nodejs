@@ -11,7 +11,6 @@ const StringDecoder = require('string_decoder').StringDecoder;
 const config = require('../config');
 const fs = require('fs');
 
-
 // Instantiate the HTTP server
 const httpServer = http.createServer(function(req, res) {
   unifiedServer(req,res);
