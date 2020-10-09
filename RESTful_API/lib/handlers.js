@@ -39,6 +39,31 @@ handlers._users.post = function(data,callback){
       if(err) {
         // Hash the password
         const hashedPassword = helpers.hash(password);
+
+        // hased password sanity check
+        if(hashedPassword) {
+          // Create the user object
+          const userobject = {
+            'firstname' : firstname,
+            'lastname' : lastname,
+            'phone' : phone, 
+            'hashedpassword' : hashedpassword,
+            'tosagreement' : true
+          };
+
+          // store the user
+          _data.create('users', phone, userobject, function(err){
+            if(!err) {
+              callback(200);
+            } else {
+              console.log(err);            
+              callback(500, {'error' : 'could not create the new user'});
+            }
+          });
+        } else {
+          callback(500, {'Error' : 'Could not hash the users password'});
+        }
+
       } else {
         // User already exists
         callback(400, {'Error' : 'a user with that phone number already exists.'} );
