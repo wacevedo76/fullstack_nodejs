@@ -4,7 +4,7 @@
 
 // Dependencies
 const crypto = require('crypto');
-const config = require('../config');
+const config = require('../lib/config');
 
 // Helpers containers
 const helpers = {};
@@ -19,6 +19,15 @@ helpers.hash = function(str) {
   }
 };
 
+ 
+helpers.parseJsonToObject = function(str){
+  try{
+    let obj = JSON.parse(str);
+    return obj;
+  }catch(e) {
+    return {};
+  }
+};
 
 
 
