@@ -4,6 +4,7 @@
 
 // Dependencies
 const _data = require('./data');
+const helpers = require('./helpers');
 
 // Define the handlers
 const handlers = {};
@@ -12,7 +13,7 @@ const handlers = {};
 handlers.users = function(data, callback){
   const acceptableMethods = ['post', 'get','put','delete'];
   if(acceptableMethods.indexOf(data.method) > -1){
-    handlers._user[data.method]{data,callback};
+    handlers._users[data.method](data,callback);
   } else {
     callback(405);
   }
@@ -37,6 +38,31 @@ handlers._users.post = function(data,callback){
     _data.read('users', phone, function(err,data){
       if(err){
         // Hash the password
+        const hashedPassword = helpers.hash(password);
+
+        // Create the user object
+        if(hashedPassword){
+          const userObject = {
+            'firstName' : firstName,
+            'lastNamea' : lastName,
+            'phone' : phone,
+            'hashedPassword' : hashedPassword,
+            'tosAgreement' : true
+          };
+
+          // Store the user
+          _data.create('users',phone,userObject,function(err){
+            if(!err){
+              callback(200);
+            } else {
+              console.log(err);
+              callback(500, {'Error' : 'Could not create new user'});
+            }
+          });
+        } else {
+          callback(500, {'Error' : 'Could not hash the users password'});
+        }
+
       } else {
         // User already exists
         callback(400, {'Error' : 'A user with that phone number already exists'});
