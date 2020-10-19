@@ -23,7 +23,7 @@ helpers.hash = function(str) {
 // Parse a JSON string to an object in all cases, without throwing 
   helpers.parseJsonToObject = function(str){
     try{
-      const obj = JSON.parse(str);
+      let obj = JSON.parse(str);
       return obj;
     }catch(e){
       return {};
