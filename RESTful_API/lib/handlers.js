@@ -73,10 +73,26 @@ handlers._users.post = function(data,callback){
   }
 };
 
-// _users handlers
 // Users - get
+// Required data: phone
+// Optional data: none
+// @TODO Only let an authenticated user acces their object. 
 handlers._users.get = function(data,callback){
-
+  // Check that the phone number is valid
+  const phone = typeof(data.queryStringObject.phone) == 'string' && data.queryStringObject.phone.trim().length == 10 ? data.queryStringObject.phone.trim() : false;
+  if(phone) {
+    _data.read('users',phone,function(err,data){
+      if(!err && data){
+        // Removed the hashed password from the user object before returning it to the requester
+        delete data.hashedPassword;
+        callback(200,data);
+      } else {
+        callback(404);
+      }
+    });
+  } else {
+    callback(400, {'Error' : 'Missing required field'})
+  }
 };
 
 // Users - put
