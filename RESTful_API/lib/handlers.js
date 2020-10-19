@@ -73,6 +73,7 @@ handlers._users.post = function(data,callback){
   }
 };
 
+// _users handlers
 // Users - get
 handlers._users.get = function(data,callback){
 
@@ -87,7 +88,6 @@ handlers._users.put = function(data,callback){
 handlers._users.delete = function(data,callback){
 
 };
-
 
 // Ping handler
 handlers.ping = function(data, callback) {

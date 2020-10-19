@@ -28,6 +28,7 @@ const httpsServerOptions = {
   'key': fs.readFileSync('./https/key.pem'),
   'cert': fs.readFileSync('./https/cert.pem')
 };
+
 const httpsServer = https.createServer(httpsServerOptions, function(req, res) {
   unifiedServer(req,res);
 });
@@ -36,7 +37,6 @@ const httpsServer = https.createServer(httpsServerOptions, function(req, res) {
 httpsServer.listen(config.httpsPort, function(){
   console.log(`The server is running on ${config.httpsPort}`);
 });
-
 
 // All the server logic for both the http and https server
 const unifiedServer = function(req,res) {
