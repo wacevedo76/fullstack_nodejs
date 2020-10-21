@@ -12,7 +12,7 @@ const helpers = {};
 // Create a SHA256 hash
 helpers.hash = function(str) {
   if(typeof(str) == 'string' && str.length > 0) {
-    const hash = crypto.cre config.hashingSecret).update(str).digest('hex');
+    const hash = crypto.createHmac('sha256', config.hashingSecret).update(str).digest('hex');
     return hash;
   } else {
     console.log('could not hash password');
@@ -35,7 +35,7 @@ helpers.createRandomString = function(strLength){
   strLength = typeof(strLength) == 'number' && strLength > 0 ? strLength : false;
   if(strLength){
     // Define all the possible characters that could go into a string
-    const possibleCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789[](){}<>?!:;*&^%$#@';
+    const possibleCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     
     let str = '';
     for(let i = 1; i <= strLength; i++){
