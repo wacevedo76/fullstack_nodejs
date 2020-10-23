@@ -33,7 +33,6 @@ handlers._users.post = function(data,callback){
   const password = typeof(data.payload.password) == 'string' && data.payload.password.trim().length > 0 ? data.payload.password.trim() : false;
   const tosAgreement = typeof(data.payload.tosAgreement) == 'boolean' && data.payload.tosAgreement == true > 0 ? true : false;
 
-  console.log(`${firstName} | ${lastName} | ${phone} | ${password} | ${tosAgreement}`)
   if(firstName && lastName && phone && password && tosAgreement){
     // Make suer that the user doesnt already exists
     _data.read('users', phone, function(err,data){
@@ -91,7 +90,7 @@ handlers._users.get = function(data,callback){
         _data.read('users',phone,function(err,data){
           if(!err && data){
             // Removed the hashed password from the user object before returning it to the requester
-            delete data.hashedPassword;
+             delete data.hashedPassword;
             callback(200,data);
           } else {
             callback(404);
@@ -119,6 +118,7 @@ handlers._users.put = function(data,callback){
   const lastName = typeof(data.payload.lastName) == 'string' && data.payload.lastName.trim().length > 0 ? data.payload.lastName.trim() : false;
   const password = typeof(data.payload.password) == 'string' && data.payload.password.trim().length > 0 ? data.payload.password.trim() : false;
 
+  console.log(`${firstName} | ${lastName} | ${password}`)
   // Error if the phone is invalid
   if(phone){
     // Error if nothing is sent to update
@@ -133,17 +133,17 @@ handlers._users.put = function(data,callback){
           // lookup the user
           _data.read('users',phone,function(err,userdata){
             if(!err && userdata){
-              if(firstname){
-                userdata.firstname = firstname;
+              if(firstName){
+                userdata.firstName = firstname;
               }
               if(lastName){
-                userData.lastName = lastName;
+                userdata.lastName = lastName;
               }
               if(password){
-                userData.hashedPassword = helpers.hash(password);
+                userdata.hashedPassword = helpers.hash(password);
               }
               // Store userData
-              _data.update('users',phone,userData,function(err){
+              _data.update('users',phone,userdata,function(err){
                 if(!err){
                   callback(200);
                 } else {
