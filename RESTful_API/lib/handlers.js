@@ -131,19 +131,19 @@ handlers._users.put = function(data,callback){
       handlers._tokens.verifyToken(token,phone,function(tokenIsValid){
         if(tokenIsValid){
           // lookup the user
-          _data.read('users',phone,function(err,userdata){
-            if(!err && userdata){
+          _data.read('users',phone,function(err,userData){
+            if(!err && userData){
               if(firstName){
-                userdata.firstName = firstname;
+                userData.firstName = firstname;
               }
               if(lastName){
-                userdata.lastName = lastName;
+                userData.lastName = lastName;
               }
               if(password){
-                userdata.hashedPassword = helpers.hash(password);
+                userData.hashedPassword = helpers.hash(password);
               }
               // Store userData
-              _data.update('users',phone,userdata,function(err){
+              _data.update('users',phone,userData,function(err){
                 if(!err){
                   callback(200);
                 } else {
