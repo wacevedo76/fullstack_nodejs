@@ -118,7 +118,6 @@ handlers._users.put = function(data,callback){
   const lastName = typeof(data.payload.lastName) == 'string' && data.payload.lastName.trim().length > 0 ? data.payload.lastName.trim() : false;
   const password = typeof(data.payload.password) == 'string' && data.payload.password.trim().length > 0 ? data.payload.password.trim() : false;
 
-  console.log(`${firstName} | ${lastName} | ${password}`)
   // Error if the phone is invalid
   if(phone){
     // Error if nothing is sent to update
@@ -342,7 +341,7 @@ handlers._tokens.verifyToken = function(id,phone,callback) {
         callback(false);
       }
     } else {
-      callback(400,{'Error' : 'Missing required fields'});
+      callback(false);
     }
   });
 };
