@@ -108,7 +108,6 @@ handlers._users.get = function(data,callback){
 // Users - put
 // Required data : phone
 // Optional data : firstName, lastName, password (at least one must be specified)
-// @TODO only let an authenticated user update their own object. Don't let them update anyone elses 
 handlers._users.put = function(data,callback){
   // Check for the required field
   const phone = typeof(data.payload.phone) == 'string' && data.payload.phone.trim().length == 10 ? data.payload.phone.trim() : false;
@@ -168,23 +167,32 @@ handlers._users.put = function(data,callback){
 
 // Users - delete
 // Required fields: phone
-// @TODO Only let an authenticated user delete their own object
 // @TODO Cleanup (delete) any onthe data files associated with this user
 handlers._users.delete = function(data,callback){
   // check that the phone number is valid
   const phone = typeof(data.queryStringObject.phone) == 'string' && data.queryStringObject.phone.trim().length == 10 ? data.queryStringObject.phone.trim() : false;
   if(phone) {
-    _data.read('users',phone,function(err,data){
-      if(!err && data){
-        _data.delete('users',phone,function(err){
-          if(!err){
-            callback(200);
+    // Get the token from the headers
+    const token = typeof(data.headers.token) == 'string' ? data.headers.token : false;
+
+    // Verify the that the given token is valid for the phone number
+    handlers._tokens.verifyToken(token,phone,function(tokenIsValid){
+      if(tokenIsValid){
+        _data.read('users',phone,function(err,data){
+          if(!err && data){
+            _data.delete('users',phone,function(err){
+              if(!err){
+                callback(200);
+              } else {
+                callback(400,{'Error' : 'could not delete the the specified user'});
+              }
+            });
           } else {
-            callback(400,{'Error' : 'could not delete the the specified user'});
+            callback(404, {'Error' : 'Could not find the specified user'});
           }
-        })
+        });
       } else {
-        callback(404, {'Error' : 'Could not find the specified user'});
+        callback(403,{'Error' : 'Missing required token in header, or token is invalid'});
       }
     });
   } else {
