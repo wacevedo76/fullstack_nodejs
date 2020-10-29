@@ -8,3 +8,6 @@ RESTful_API/.data/checks/*
 
 #Ignore files specific to vim
 RESTful_API/*.vim
+
+#Ignore diff scratch directory
+RESTful_API/diff
