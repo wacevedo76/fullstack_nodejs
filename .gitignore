@@ -1,5 +1,10 @@
 # Ignore https certs
 RESTful_API/https/*
+
+#Ingnore specific files from .data
 RESTful_API/.data/users/*
 RESTful_API/.data/tokens/*
 RESTful_API/.data/checks/*
+
+#Ignore files specific to vim
+RESTful_API/*.vim
