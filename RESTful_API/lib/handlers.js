@@ -339,6 +339,22 @@ handlers._tokens.delete = function(data, callback){
   }
 };
 
+// Verify if a given token ID is currently valid for a given user 
+handlers._tokens.verifyToken = function(id,phone,callback) {
+  _data.read('tokens',id,function(err,tokenData){
+    if(!err && tokenData){
+      // Check that the token belongs to the given uer and has not expired
+      if(tokenData.phone == phone && tokenData.expires > Date.now()){
+        callback(true);
+      } else {
+        callback(false);
+      }
+    } else {
+      callback(false);
+    }
+  });
+};
+
 // Checks
 handlers.checks = function(data,callback){
   const acceptableMethods = ['post','get','put','delete'];
@@ -428,21 +444,6 @@ handlers._checks.post = function(data,callback){
   } else {
     callback(400, {'Error' : 'Missing required inputs or inputs are invalid'});
   }
-};
-// Verify if a given token ID is currently valid for a given user 
-handlers._tokens.verifyToken = function(id,phone,callback) {
-  _data.read('tokens',id,function(err,tokenData){
-    if(!err && tokenData){
-      // Check that the token belongs to the given uer and has not expired
-      if(tokenData.phone == phone && tokenData.expires > Date.now()){
-        callback(true);
-      } else {
-        callback(false);
-      }
-    } else {
-      callback(false);
-    }
-  });
 };
 
 // Ping handler
