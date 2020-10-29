@@ -446,6 +446,47 @@ handlers._checks.post = function(data,callback){
   }
 };
 
+// Checks - get
+// Required data: id
+// Optional data: none
+handlers._checks.get = function(data,callback){
+  // Check that the id number is valid
+  const id = typeof(data.queryStringObject.id) == 'string' && data.queryStringObject.id.trim().length == 20 ? data.queryStringObject.id.trim() : false;
+  if(id) {
+    // Lookup the check
+    _data.read('checks',id,function(err,checkData){
+      if(!err && checkData){
+
+      } else {
+        callback(404) // @TODO 26:55
+      }
+    });
+
+    // Get the token from the headers
+    const token = typeof(data.headers.token) == 'string' ? data.headers.token : false;
+
+    // Verify the that the given token is valid for the phone number
+    handlers._tokens.verifyToken(token,phone,function(tokenIsValid){
+      if(tokenIsValid){
+        // Lookup the user
+        _data.read('users',phone,function(err,data){
+          if(!err && data){
+            // Removed the hashed password from the user object before returning it to the requester
+             delete data.hashedPassword;
+            callback(200,data);
+          } else {
+            callback(404);
+          }
+        });
+      } else {
+        callback(403,{'Error' : 'Missing required token in header, or token is invalid'});
+      }
+    });
+  } else {
+    callback(400, {'Error' : 'Missing required field'})
+  }
+};
+
 // Ping handler
 handlers.ping = function(data, callback) {
   callback(200);
