@@ -1,7 +1,0 @@
-https
-https/*
-diff
-diff/*
-*.vim
-.data/
-RestAPI.vim

@@ -1,2 +1,5 @@
 # Ignore https certs
-./RESTful_API/https/*
+RESTful_API/https/*
+RESTful_API/.data/users/*
+RESTful_API/.data/tokens/*
+RESTful_API/.data/checks/*
